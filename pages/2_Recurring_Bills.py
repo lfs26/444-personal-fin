@@ -34,6 +34,9 @@ if st.button("Log Bill Payment"):
     # Get category_id for "Bills"
     cat = fetch_df("SELECT category_id FROM categories WHERE name = 'Bills';")
     bills_cat_id = int(cat["category_id"].iloc[0])
+    st.write(type(row["name"]), row["name"])
+    st.write(type(row["amount"]), row["amount"])
+    st.write(type(bills_cat_id), bills_cat_id)
 
     execute("""
         INSERT INTO purchases (item, amount, category_id, notes)
