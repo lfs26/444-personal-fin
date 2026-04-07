@@ -9,6 +9,10 @@ due_day = st.number_input("Due Day (1–31)", min_value=1, max_value=31)
 frequency = st.selectbox("Frequency", ["monthly", "weekly", "yearly"])
 notes = st.text_area("Notes (optional)")
 
+st.write("DEBUG COLUMNS:", df.columns.tolist())
+st.dataframe(df)
+
+
 if st.button("Add Bill"):
     execute(
         "INSERT INTO recurring_bills (name, amount, due_day, frequency, notes) VALUES (%s, %s, %s, %s, %s);",
