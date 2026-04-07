@@ -19,36 +19,37 @@ if st.button("Add Bill"):
 st.markdown("---")
 st.subheader("Existing Bills")
 
-df = fetch_df("SELECT * FROM recurring_bills ORDER BY bill_id;")
+df = fetch_df("SELECT * FROM recurring_bills;")
 
+# Fix whitespace issues
+df["name"] = df["name"].astype(str).str.strip()
+
+# Debug
 st.write("DEBUG COLUMNS:", df.columns.tolist())
 st.dataframe(df)
-st.write("DEBUG DF EMPTY:", df.empty)
-st.write("DEBUG DF SHAPE:", df.shape)
+st.write("DEBUG BILL LIST:", df["name"].tolist())
 
-st.dataframe(df, use_container_width=True)
+bill_list = df["name"].tolist()
+selected_bill = st.selectbox("Select bill to log as a purchase", bill_list)
 
+st.write("DEBUG SELECTED BILL:", selected_bill)
 
 if st.button("Log Bill Payment"):
-    bill_list = df["name"].tolist()
-    selected_bill = st.selectbox("Select bill to log as a purchase", bill_list)
-
-    st.write("DEBUG BILL LIST:", bill_list)
-    st.write("DEBUG SELECTED BILL:", selected_bill)
-
     row = df[df["name"] == selected_bill].iloc[0]
 
-    # Get category_id for "Bills"
-    cat = fetch_df("SELECT category_id FROM categories WHERE name = 'Bills';")
-    bills_cat_id = int(cat["category_id"].iloc[0])
-
-    # Convert numpy → Python native types
+    # Convert numpy → Python types
     item = str(row["name"])
     amount = float(row["amount"])
     category_id = int(bills_cat_id)
     notes = "Auto-logged from recurring bills"
 
     execute("""
+        INSERT INTO purchases (item, amount, category_id, notes)
+        VALUES (%s, %s, %s, %s);
+    """, (item, amount, category_id, notes))
+
+    st.success("Bill logged as a purchase!")
+
         INSERT INTO purchases (item, amount, category_id, notes)
         VALUES (%s, %s, %s, %s);
     """, (item, amount, category_id, notes))
