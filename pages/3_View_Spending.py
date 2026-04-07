@@ -13,3 +13,13 @@ df = fetch_df("""
 
 st.bar_chart(df.set_index("category"))
 st.dataframe(df, use_container_width=True)
+
+bills = fetch_df("""
+    SELECT name AS category, SUM(amount) AS total
+    FROM recurring_bills
+    GROUP BY name;
+""")
+
+st.subheader("📆 Monthly Bill Obligations")
+st.dataframe(bills, use_container_width=True)
+
