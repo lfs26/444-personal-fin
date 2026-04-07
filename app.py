@@ -21,3 +21,22 @@ try:
 
 except Exception as e:
     st.error(f"Database error: {e}")
+
+import datetime
+
+today = datetime.date.today()
+current_day = today.day
+
+upcoming = fetch_df("""
+    SELECT name, amount, due_day
+    FROM recurring_bills
+    WHERE due_day >= %s AND due_day <= %s
+    ORDER BY due_day;
+""", (current_day, current_day + 7))
+
+st.subheader("📆 Upcoming Bills (Next 7 Days)")
+if upcoming.empty:
+    st.info("No bills due in the next 7 days.")
+else:
+    st.dataframe(upcoming, use_container_width=True)
+
