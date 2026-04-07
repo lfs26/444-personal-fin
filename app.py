@@ -40,3 +40,7 @@ if upcoming.empty:
 else:
     st.dataframe(upcoming, use_container_width=True)
 
+monthly_bills = fetch_df("SELECT SUM(amount) AS total FROM recurring_bills;")
+st.metric("Monthly Bills Total", f"${monthly_bills['total'][0]:,.2f}")
+
+
