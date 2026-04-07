@@ -23,6 +23,8 @@ df = fetch_df("SELECT * FROM recurring_bills ORDER BY bill_id;")
 
 st.write("DEBUG COLUMNS:", df.columns.tolist())
 st.dataframe(df)
+st.write("DEBUG DF EMPTY:", df.empty)
+st.write("DEBUG DF SHAPE:", df.shape)
 
 st.dataframe(df, use_container_width=True)
 
