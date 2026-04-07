@@ -27,15 +27,13 @@ df = fetch_df("SELECT * FROM recurring_bills;")
 df["name"] = df["name"].astype(str).str.strip()
 
 # Debug
-st.write("DEBUG COLUMNS:", df.columns.tolist())
-st.dataframe(df)
-st.write("DEBUG BILL LIST:", df["name"].tolist())
+
 
 # Dropdown
 bill_list = df["name"].tolist()
 selected_bill = st.selectbox("Select bill to log as a purchase", bill_list)
 
-st.write("DEBUG SELECTED BILL:", selected_bill)
+
 
 # Get Bills category_id
 cat = fetch_df("SELECT category_id FROM categories WHERE name = 'Bills';")
