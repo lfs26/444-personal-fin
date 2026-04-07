@@ -30,6 +30,12 @@ st.dataframe(df, use_container_width=True)
 
 
 if st.button("Log Bill Payment"):
+    bill_list = df["name"].tolist()
+    selected_bill = st.selectbox("Select bill to log as a purchase", bill_list)
+
+    st.write("DEBUG BILL LIST:", bill_list)
+    st.write("DEBUG SELECTED BILL:", selected_bill)
+
     row = df[df["name"] == selected_bill].iloc[0]
 
     # Get category_id for "Bills"
