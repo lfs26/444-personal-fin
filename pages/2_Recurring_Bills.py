@@ -30,8 +30,15 @@ selected_bill = st.selectbox("Select bill to log as a purchase", bill_list)
 
 if st.button("Log Bill Payment"):
     row = df[df["name"] == selected_bill].iloc[0]
+
+    # Get category_id for "Bills"
+    cat = fetch_df("SELECT category_id FROM categories WHERE name = 'Bills';")
+    bills_cat_id = int(cat["category_id"].iloc[0])
+
     execute("""
         INSERT INTO purchases (item, amount, category_id, notes)
         VALUES (%s, %s, %s, %s);
-    """, (row["name"], row["amount"], None, "Auto‑logged from recurring bills"))
+    """, (row["name"], row["amount"], bills_cat_id, "Auto‑logged from recurring bills"))
+
     st.success("Bill logged as a purchase!")
+
