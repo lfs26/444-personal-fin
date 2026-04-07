@@ -21,3 +21,17 @@ st.subheader("Existing Bills")
 
 df = fetch_df("SELECT * FROM recurring_bills ORDER BY bill_id;")
 st.dataframe(df, use_container_width=True)
+
+st.markdown("---")
+st.subheader("💸 Log This Month's Bill Payment")
+
+bill_list = df["name"].tolist()
+selected_bill = st.selectbox("Select bill to log as a purchase", bill_list)
+
+if st.button("Log Bill Payment"):
+    row = df[df["name"] == selected_bill].iloc[0]
+    execute("""
+        INSERT INTO purchases (item, amount, category_id, notes)
+        VALUES (%s, %s, %s, %s);
+    """, (row["name"], row["amount"], None, "Auto‑logged from recurring bills"))
+    st.success("Bill logged as a purchase!")
