@@ -17,3 +17,17 @@ if st.button("Save Purchase"):
         (item, amount, cat_id, notes)
     )
     st.success("Purchase logged!")
+# Load tags
+tag_df = fetch_df("SELECT tag_id, tag_name FROM tags ORDER BY tag_name;")
+tag_options = {row["tag_name"]: row["tag_id"] for _, row in tag_df.iterrows()}
+
+selected_tags = st.multiselect("Tags", list(tag_options.keys()))
+
+purchase_id = fetch_df("SELECT MAX(purchase_id) AS id FROM purchases;")["id"].iloc[0]
+
+for tag_name in selected_tags:
+    tag_id = tag_options[tag_name]
+    execute(
+        "INSERT INTO purchase_tags (purchase_id, tag_id) VALUES (%s, %s) ON CONFLICT DO NOTHING;",
+        (purchase_id, tag_id)
+    )
