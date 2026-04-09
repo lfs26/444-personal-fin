@@ -6,6 +6,8 @@ st.title("🏷️ Tag Management")
 # --- Add New Tag ---
 tag_name = st.text_input("New Tag Name")
 tag_color = st.color_picker("Tag Color", "#4CAF50")
+tag_description = st.text_area("Description (optional)")
+
 
 if st.button("Add Tag"):
     execute(
