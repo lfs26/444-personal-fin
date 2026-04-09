@@ -39,7 +39,6 @@ if st.button("Save Purchase"):
         for tag_name in selected_tags:
             tag_id = tag_options.get(tag_name)
 
-            # Safety check
             if tag_id is None:
                 continue
 
