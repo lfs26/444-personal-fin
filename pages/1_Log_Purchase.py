@@ -34,12 +34,18 @@ if st.button("Save Purchase"):
         RETURNING purchase_id;
     """, (item, amount, cat_id, notes))["purchase_id"].iloc[0]
 
-    # 2. Insert tags for this purchase
-    for tag_name in selected_tags:
-        tag_id = tag_options[tag_name]
-        execute(
-            "INSERT INTO purchase_tags (purchase_id, tag_id) VALUES (%s, %s) ON CONFLICT DO NOTHING;",
-            (purchase_id, tag_id)
-        )
+    # 2. Insert tags ONLY if user selected tags
+    if selected_tags:
+        for tag_name in selected_tags:
+            tag_id = tag_options.get(tag_name)
 
-    st.success("Purchase logged with tags!")
+            # Safety check: skip if tag_id is None
+            if tag_id is None:
+                continue
+
+            execute(
+                "INSERT INTO purchase_tags (purchase_id, tag_id) VALUES (%s, %s) ON CONFLICT DO NOTHING;",
+                (purchase_id, tag_id)
+            )
+
+    st.success("Purchase logged!")
