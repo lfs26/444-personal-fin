@@ -48,6 +48,7 @@ if st.button("Log Bill Payment"):
     amount = float(row["amount"])
     category_id = int(bills_cat_id)
     notes = "Auto-logged from recurring bills"
+    billing_email = st.text_input("Billing Email (used to pay this bill)")
 
     execute(
         """
