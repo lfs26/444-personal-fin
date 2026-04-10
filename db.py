@@ -11,9 +11,12 @@ def get_connection():
 def fetch_df(query, params=None):
     """Run a SELECT and return results as a DataFrame."""
     conn = get_connection()
-    df = pd.read_sql(query, conn, params=params)
+    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cur.execute(query, params)
+    rows = cur.fetchall()
+    cur.close()
     conn.close()
-    return df
+    return pd.DataFrame(rows)
  
  
 def execute(query, params=None):
