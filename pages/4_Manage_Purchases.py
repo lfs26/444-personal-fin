@@ -10,6 +10,21 @@ df = fetch_df("""
     ORDER BY p.purchase_date DESC;
 """)
 
+st.subheader("Edit Selected Purchase")
+
+edit_item = st.text_input("Item", selected_row["item"])
+edit_amount = st.number_input("Amount ($)", min_value=0.0, value=float(selected_row["amount"]))
+edit_notes = st.text_area("Notes", selected_row["notes"])
+
+if st.button("Save Changes"):
+    execute("""
+        UPDATE purchases
+        SET item = %s, amount = %s, notes = %s
+        WHERE purchase_id = %s;
+    """, (edit_item, edit_amount, edit_notes, selected_purchase_id))
+
+    st.success("Purchase updated successfully.")
+
 st.dataframe(df, use_container_width=True)
 
 ids = df["purchase_id"].tolist()
