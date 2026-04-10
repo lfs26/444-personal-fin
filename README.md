@@ -131,5 +131,25 @@ Independent entity with no foreign keys.
 
 ## Validation rules
 
+### Purchases
+* item_name: required, ≤100 chars
+* amount: required, numeric, >0
+* category_id: required, must exist in categories
+* purchase_date: required, valid date
+* tags: optional, but each must exist in tags table
+
+### Recurring Bills
+* bill_name: required
+* amount: required, >0
+* frequency: must be weekly/monthly/yearly
+* next_due_date: required, valid date
+
+### Tags
+* tag_name: required, unique, ≤50 chars
+### purchase_tags 
+* No duplicate pairs
+* purchase_id must exist
+* tag_id must exist
+
 ## ERD diagram
 ![Personal Finance ERD](ERD.png)
