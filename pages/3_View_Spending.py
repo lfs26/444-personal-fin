@@ -39,3 +39,24 @@ bills = fetch_df("""
 st.subheader("📆 Monthly Bill Obligations")
 st.dataframe(bills, use_container_width=True)
 
+st.subheader("All Purchases with Tags")
+
+purchases_with_tags = fetch_df("""
+SELECT 
+    p.purchase_id,
+    p.item,
+    p.amount,
+    p.purchased_at,
+    c.name AS category,
+    COALESCE(string_agg(t.tag_name, ', ' ORDER BY t.tag_name), '') AS tags
+FROM purchases p
+LEFT JOIN categories c ON p.category_id = c.category_id
+LEFT JOIN purchase_tags pt ON p.purchase_id = pt.purchase_id
+LEFT JOIN tags t ON pt.tag_id = t.tag_id
+GROUP BY p.purchase_id, p.item, p.amount, p.purchased_at, c.name
+ORDER BY p.purchased_at DESC, p.purchase_id DESC;
+""")
+
+st.dataframe(purchases_with_tags)
+
+
