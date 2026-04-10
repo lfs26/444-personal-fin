@@ -1,68 +1,60 @@
 import streamlit as st
 from db import fetch_df, execute
 
-st.title("🧾 Manage Purchases")
+st.title("📆 Recurring Bills")
 
-# -------------------------
-# Load Purchases
-# -------------------------
-purchases = fetch_df("""
-SELECT p.purchase_id,
-       p.item,
-       p.amount,
-       c.name AS category,
-       p.notes
-FROM purchases p
-LEFT JOIN categories c ON p.category_id = c.category_id
-ORDER BY p.purchase_id DESC;
-""")
+# --- Add New Bill ---
+name = st.text_input("Bill Name")
+amount = st.number_input("Amount ($)", min_value=0.0)
+due_day = st.number_input("Due Day (1–31)", min_value=1, max_value=31)
+frequency = st.selectbox("Frequency", ["monthly", "weekly", "yearly"])
+notes = st.text_area("Notes (optional)")
 
-# If no purchases exist, stop the page safely
-if purchases.empty:
-    st.info("No purchases found.")
-    st.stop()
-
-st.dataframe(purchases, use_container_width=True)
-
-# -------------------------
-# Select Purchase
-# -------------------------
-purchase_ids = purchases["purchase_id"].tolist()
-selected_id = st.selectbox("Select a purchase to edit", purchase_ids)
-
-# -------------------------
-# Safely get selected row
-# -------------------------
-selected_row = purchases[purchases["purchase_id"] == selected_id].iloc[0]
+if st.button("Add Bill"):
+    execute(
+        "INSERT INTO recurring_bills (name, amount, due_day, frequency, notes) VALUES (%s, %s, %s, %s, %s);",
+        (name, amount, due_day, frequency, notes)
+    )
+    st.success("Recurring bill added!")
 
 st.markdown("---")
-st.subheader("✏️ Edit Purchase")
+st.subheader("Existing Bills")
 
-# -------------------------
-# Edit Fields
-# -------------------------
-edit_item = st.text_input("Item", selected_row["item"])
-edit_amount = st.number_input("Amount ($)", min_value=0.0, value=float(selected_row["amount"]))
-edit_notes = st.text_area("Notes", selected_row["notes"])
+# --- Load Bills ---
+df = fetch_df("SELECT * FROM recurring_bills;")
 
-if st.button("Save Changes"):
-    execute("""
-        UPDATE purchases
-        SET item = %s, amount = %s, notes = %s
-        WHERE purchase_id = %s;
-    """, (edit_item, edit_amount, edit_notes, selected_id))
+# Clean whitespace
+df["name"] = df["name"].astype(str).str.strip()
 
-    st.success("Purchase updated successfully.")
+# Debug
 
-st.markdown("---")
-st.subheader("🗑️ Delete Purchase")
 
-# -------------------------
-# Delete With Confirmation
-# -------------------------
-if st.button("Delete Purchase"):
-    st.warning("Are you sure you want to delete this purchase? This action cannot be undone.")
+# Dropdown
+bill_list = df["name"].tolist()
+selected_bill = st.selectbox("Select bill to log as a purchase", bill_list)
 
-    if st.button("Yes, delete permanently"):
-        execute("DELETE FROM purchases WHERE purchase_id = %s;", (selected_id,))
-        st.success("Purchase deleted. Refresh the page.")
+
+
+# Get Bills category_id
+cat = fetch_df("SELECT category_id FROM categories WHERE name = 'Bills';")
+bills_cat_id = int(cat["category_id"].iloc[0])
+
+# --- Log Bill Payment ---
+if st.button("Log Bill Payment"):
+    row = df[df["name"] == selected_bill].iloc[0]
+
+    # Convert numpy → Python types
+    item = str(row["name"])
+    amount = float(row["amount"])
+    category_id = int(bills_cat_id)
+    notes = "Auto-logged from recurring bills"
+
+    execute(
+        """
+        INSERT INTO purchases (item, amount, category_id, notes)
+        VALUES (%s, %s, %s, %s);
+        """,
+        (item, amount, category_id, notes)
+    )
+
+    st.success("Bill logged as a purchase!")
