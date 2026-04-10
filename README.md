@@ -62,96 +62,71 @@ Independent entity with no foreign keys.
 
 ## Page-by-page plan
 ### 1. Dashboard
-* Displays
-High‑level financial metrics (total purchases, total bills, total spending)
+#### Displays
+* High‑level financial metrics (total purchases, total bills, total spending)
+* Summary of upcoming bills within the next billing window
+* Aggregated monthly bill totals
 
-Summary of upcoming bills within the next billing window
+#### User Actions
+* Navigate to other pages
+* Review overall spending and upcoming obligations
 
-Aggregated monthly bill totals
+### 2. Log Purchase
+#### Displays
+* Form for entering a new purchase
+* Inputs for item name, amount, category, notes
+* Multi‑select for assigning tags
 
-User Actions
-Navigate to other pages
-
-Review overall spending and upcoming obligations
-
-🛒 2. Log Purchase
-Displays
-Form for entering a new purchase
-
-Inputs for item name, amount, category, notes
-
-Multi‑select for assigning tags
-
-User Actions
-Submit a new purchase
-
-Attach one or more tags
-
-Add optional notes
+#### User Actions
+* Submit a new purchase
+* Attach one or more tags
+* Add optional notes
 
 📅 3. Recurring Bills
-Displays
-Form for adding a recurring bill
+#### Displays
+* Form for adding a recurring bill
+* Inputs for bill name, amount, due day, frequency, notes
 
-Inputs for bill name, amount, due day, frequency, notes
-
-User Actions
-Add a new recurring bill
-
-Specify billing frequency and due day
-
-Save bill to the database
+#### User Actions
+* Add a new recurring bill
+* Specify billing frequency and due day
+* Save bill to the database
 
 📊 4. View Spending
-Displays
-Spending summary filtered by tag
+#### Displays
+* Spending summary filtered by tag
+* Category‑level spending totals
+* Visual breakdown of spending
+* Monthly bill obligations
+* Full list of purchases with tag labels
 
-Category‑level spending totals
-
-Visual breakdown of spending
-
-Monthly bill obligations
-
-Full list of purchases with tag labels
-
-User Actions
-Filter spending by tag
-
-Review category totals
-
-Inspect all purchases
-
-Compare spending across categories
+#### User Actions
+* Filter spending by tag
+* Review category totals
+* Inspect all purchases
+* Compare spending across categories
 
 🧾 5. Manage Purchases
-Displays
-Table of all purchases with IDs, categories, and amounts
+#### Displays
+* Table of all purchases with IDs, categories, and amounts
+* Control for selecting a purchase to delete
 
-Control for selecting a purchase to delete
-
-User Actions
-Review all purchases
-
-Select a purchase by ID
-
-Delete a purchase
+#### User Actions
+* Review all purchases
+* Select a purchase by ID
+* Delete a purchase
 
 🏷️ 6. Tags (Tag Management)
-Displays
-Form for creating a new tag (name, color, description)
+#### Displays
+* Form for creating a new tag (name, color, description)
+* Table of existing tags
+* Control for selecting a tag to delete
 
-Table of existing tags
-
-Control for selecting a tag to delete
-
-User Actions
-Add a new tag
-
-Assign color and optional description
-
-View all tags
-
-Delete a tag
+#### User Actions
+* Add a new tag
+* Assign color and optional description
+* View all tags
+* Delete a tag
 
 
 ## Validation rules
