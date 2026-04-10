@@ -82,7 +82,7 @@ Independent entity with no foreign keys.
 * Attach one or more tags
 * Add optional notes
 
-📅 3. Recurring Bills
+### 📅 3. Recurring Bills
 #### Displays
 * Form for adding a recurring bill
 * Inputs for bill name, amount, due day, frequency, notes
