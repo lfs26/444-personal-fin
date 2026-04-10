@@ -7,18 +7,17 @@ selected_tag = st.selectbox("Filter by Tag", ["All"] + list(tag_options.keys()))
 
 if selected_tag == "All":
     purchases_df = fetch_df("""
-        SELECT p.purchase_date, p.description, p.amount,
+        SELECT p.purchase_date, p.item, p.amount,
                STRING_AGG(t.tag_name, ', ') AS tags
         FROM purchases p
         LEFT JOIN purchase_tags pt ON p.purchase_id = pt.purchase_id
         LEFT JOIN tags t ON pt.tag_id = t.tag_id
-        GROUP BY p.purchase_date, p.description, p.amount
+        GROUP BY p.purchase_date, p.item, p.amount
         ORDER BY p.purchase_date DESC;
     """)
 else:
-    tag_id = tag_options[selected_tag]
     purchases_df = fetch_df("""
-        SELECT p.purchase_date, p.description, p.amount,
+        SELECT p.purchase_date, p.item, p.amount,
                STRING_AGG(t.tag_name, ', ') AS tags
         FROM purchases p
         LEFT JOIN purchase_tags pt ON p.purchase_id = pt.purchase_id
@@ -27,7 +26,7 @@ else:
             SELECT purchase_id FROM purchase_tags
             WHERE tag_id = %s
         )
-        GROUP BY p.purchase_date, p.description, p.amount
+        GROUP BY p.purchase_date, p.item, p.amount
         ORDER BY p.purchase_date DESC;
     """, (tag_id,))
 
