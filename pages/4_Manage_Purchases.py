@@ -16,5 +16,9 @@ ids = df["purchase_id"].tolist()
 selected = st.selectbox("Select purchase to delete", ids)
 
 if st.button("Delete Purchase"):
-    execute("DELETE FROM purchases WHERE purchase_id = %s;", (selected,))
-    st.success("Purchase deleted!")
+    st.warning("Are you sure you want to delete this record? This action cannot be undone.")
+    confirm = st.button("Yes, delete permanently")
+    if confirm:
+        execute("DELETE FROM purchases WHERE purchase_id = %s;", (purchase_id,))
+        st.success("Record deleted.")
+
