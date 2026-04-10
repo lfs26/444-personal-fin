@@ -55,7 +55,7 @@ if selected_tag == "All":
 else:
     purchases_df = fetch_df("""
         SELECT p.purchase_date, p.description, p.amount,
-               STRING_AGG(t.tag_name, ', ') AS tags
+           GROUP_CONCAT(t.tag_name, ', ') AS tags
         FROM purchases p
         LEFT JOIN purchase_tags pt ON p.purchase_id = pt.purchase_id
         LEFT JOIN tags t ON pt.tag_id = t.tag_id
