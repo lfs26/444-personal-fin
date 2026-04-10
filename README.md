@@ -36,6 +36,8 @@ The Personal Finance Tracker is a Streamlit‑based application that enables an 
 | --- | --- | --- | --- |
 | tag_id | SERIAL | PRIMARY KEY | Unique identifier |
 | tag_name | VARCHAR(50) | UNIQUE, NOT NULL | User‑defined tag label |
+| tag_color | VARCHAR(7) | NULL | Hex color code |
+| description | TEXT | NULL | Optional tag description |
 
 ### purchase tags
 | Column | Data Type | Constraints | Description |
