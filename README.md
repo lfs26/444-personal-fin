@@ -22,7 +22,7 @@ The Personal Finance Tracker is a Streamlit‑based application that enables an 
 | bill_name | VARCHAR(100) | NOT NULL | Name of the bill |
 | amount | NUMERIC(10,2) | NOT NULL, CHECK(amount > 0) | Amount due each cycle |
 | frequency | VARCHAR(20) | NOT NULL, CHECK(frequency IN ('weekly','monthly','yearly')) | Billing cycle |
-| next_due_date | DATE | NOT NULL | Next due date |
+| due_day | DATE | NOT NULL | Next due date |
 | notes | TEXT | NULL | Optional notes |
 
 ### categories
