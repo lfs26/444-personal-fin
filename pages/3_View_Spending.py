@@ -41,4 +41,30 @@ st.dataframe(bills, use_container_width=True)
 
 # --- All Purchases Section ---
 st.subheader("🧾 All Purchases" if selected_tag == "All" else f"🧾 Purchases tagged: {selected_tag}")
+
+if selected_tag == "All":
+    purchases_df = fetch_df("""
+        SELECT p.purchase_date, p.description, p.amount,
+               STRING_AGG(t.tag_name, ', ') AS tags
+        FROM purchases p
+        LEFT JOIN purchase_tags pt ON p.purchase_id = pt.purchase_id
+        LEFT JOIN tags t ON pt.tag_id = t.tag_id
+        GROUP BY p.purchase_id, p.purchase_date, p.description, p.amount
+        ORDER BY p.purchase_date DESC;
+    """)
+else:
+    purchases_df = fetch_df("""
+        SELECT p.purchase_date, p.description, p.amount,
+               STRING_AGG(t.tag_name, ', ') AS tags
+        FROM purchases p
+        LEFT JOIN purchase_tags pt ON p.purchase_id = pt.purchase_id
+        LEFT JOIN tags t ON pt.tag_id = t.tag_id
+        WHERE p.purchase_id IN (
+            SELECT purchase_id FROM purchase_tags
+            WHERE tag_id = %s
+        )
+        GROUP BY p.purchase_id, p.purchase_date, p.description, p.amount
+        ORDER BY p.purchase_date DESC;
+    """, (tag_id,))
+
 st.dataframe(purchases_df, use_container_width=True)
