@@ -49,6 +49,3 @@ if st.button("Save Purchase"):
 
     st.success("Purchase logged!")
 
-st.write("DEBUG purchase_id:", purchase_id)
-st.write("DEBUG selected_tags:", selected_tags)
-
