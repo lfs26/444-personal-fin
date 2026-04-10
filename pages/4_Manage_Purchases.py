@@ -57,12 +57,11 @@ if st.button("Save Changes"):
 st.markdown("---")
 st.subheader("🗑️ Delete Purchase")
 
-# -------------------------
-# Delete With Confirmation
-# -------------------------
 if st.button("Delete Purchase"):
     st.warning("Are you sure you want to delete this purchase? This action cannot be undone.")
 
     if st.button("Yes, delete permanently"):
         execute("DELETE FROM purchases WHERE purchase_id = %s;", (selected_id,))
-        st.success("Purchase deleted. Refresh the page.")
+        st.success("Purchase deleted.")
+        st.experimental_rerun()
+
