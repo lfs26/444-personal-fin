@@ -17,6 +17,7 @@ LEFT JOIN categories c ON p.category_id = c.category_id
 ORDER BY p.purchase_id DESC;
 """)
 
+# If no purchases exist, stop the page safely
 if purchases.empty:
     st.info("No purchases found.")
     st.stop()
@@ -29,7 +30,9 @@ st.dataframe(purchases, use_container_width=True)
 purchase_ids = purchases["purchase_id"].tolist()
 selected_id = st.selectbox("Select a purchase to edit", purchase_ids)
 
+# -------------------------
 # Safely get selected row
+# -------------------------
 selected_row = purchases[purchases["purchase_id"] == selected_id].iloc[0]
 
 st.markdown("---")
