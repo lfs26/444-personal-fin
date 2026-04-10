@@ -62,6 +62,8 @@ Independent entity with no foreign keys.
 
 ## Page-by-page plan
 
+
+
 ## Validation rules
 
 ## ERD diagram
