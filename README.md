@@ -11,3 +11,4 @@
 ## Validation rules
 
 ## ERD diagram
+![Personal Finance ERD](ERD.png)
