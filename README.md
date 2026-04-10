@@ -61,7 +61,7 @@ Recurring Bills
 Independent entity with no foreign keys.
 
 ## Page-by-page plan
-### 1. Dashboard
+### 💰 1. Dashboard
 #### Displays
 * High‑level financial metrics (total purchases, total bills, total spending)
 * Summary of upcoming bills within the next billing window
@@ -71,7 +71,7 @@ Independent entity with no foreign keys.
 * Navigate to other pages
 * Review overall spending and upcoming obligations
 
-### 2. Log Purchase
+### 🛒 2. Log Purchase
 #### Displays
 * Form for entering a new purchase
 * Inputs for item name, amount, category, notes
@@ -92,7 +92,7 @@ Independent entity with no foreign keys.
 * Specify billing frequency and due day
 * Save bill to the database
 
-📊 4. View Spending
+### 📈 4. View Spending
 #### Displays
 * Spending summary filtered by tag
 * Category‑level spending totals
@@ -106,7 +106,7 @@ Independent entity with no foreign keys.
 * Inspect all purchases
 * Compare spending across categories
 
-🧾 5. Manage Purchases
+### 🗂 5. Manage Purchases
 #### Displays
 * Table of all purchases with IDs, categories, and amounts
 * Control for selecting a purchase to delete
@@ -116,7 +116,7 @@ Independent entity with no foreign keys.
 * Select a purchase by ID
 * Delete a purchase
 
-🏷️ 6. Tags (Tag Management)
+### 🏷️ 6. Tags (Tag Management)
 #### Displays
 * Form for creating a new tag (name, color, description)
 * Table of existing tags
